@@ -1,0 +1,97 @@
+* {
+  font-family: "Roboto", sans-serif;
+  /* outline: 1px solid red; */
+}
+body {
+  display: flex;
+  justify-content: center;
+  margin-top: 120px;
+  background: rgb(42, 42, 42);
+}
+/* IC LOGO */
+img {
+  width: 50px;
+  height: 50px;
+}
+.addNewRecord {
+  color: white;
+  text-align: center;
+}
+
+/* FORM */
+.boxForm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(24, 20, 20, 0.987);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+}
+
+.boxForm .user-box {
+  position: relative;
+  box-shadow: none;
+}
+
+.boxForm .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.boxForm .user-box label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.boxForm .user-box input:focus ~ label,
+.boxForm .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #bdb8b8;
+  font-size: 12px;
+}
+
+/* BUTTON */
+.submitButton {
+  padding: 10px 20px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 500;
+  color: #ffffff80;
+  text-shadow: none;
+  background: transparent;
+  box-shadow: transparent;
+  border: 1px solid #ffffff80;
+  transition: 0.5s ease;
+  user-select: none;
+}
+
+#btn:hover,
+:focus {
+  color: #ffffff;
+  background: #008cff;
+  border: 1px solid #008cff;
+  text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff;
+  box-shadow: 0 0 5px #008cff, 0 0 20px #008cff, 0 0 50px #008cff,
+    0 0 100px #008cff;
+}

@@ -1,0 +1,152 @@
+* {
+  font-family: "Roboto", sans-serif;
+  /* outline: 1px solid red; */
+}
+body {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  background: rgb(42, 42, 42);
+}
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bgImg {
+  background: white;
+  border-radius: 50%;
+  transform: translateX(-20px);
+}
+img[alt="DNSC"] {
+  width: 120px;
+  height: 120px;
+}
+/* /* HEADER TITLE */
+.headerTitle {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.headerTitle {
+  --border-right: 6px;
+  --text-stroke-color: rgba(255, 255, 255, 0.6);
+  --animation-color: #37ff8b;
+  --fs-size: 2em;
+  letter-spacing: 3px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "Arial";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.hover-text {
+  position: absolute;
+  box-sizing: border-box;
+  content: attr(data-text);
+  color: var(--animation-color);
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-text-stroke: 1px var(--animation-color);
+}
+
+.headerTitle:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 25px var(--animation-color));
+}
+
+/* ADD RECORD BUTTON */
+
+.addRecordButton {
+  width: 140px;
+  height: 55px;
+  border: 3px solid #f0eeef;
+  border-radius: 30px;
+  transition: all 0.3s;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0);
+  font-size: 0.9em;
+  font-weight: 550;
+  font-family: "Montserrat", sans-serif;
+  color: #f0eeef;
+}
+
+.addRecordButton:hover {
+  background: #f0eeef;
+  color: black;
+  font-size: 1em;
+}
+
+/* TABLE */
+table {
+  color: white;
+}
+/* BUTTON OF UPDATE AND DELETE */
+.updateBTN {
+  width: 80px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0);
+  border: 2px solid #008cff;
+  border-radius: 7px;
+  transition: 0.3s;
+}
+.textAnchorUpdate {
+  color: #008cff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.updateBTN:hover {
+  background: #008cff;
+}
+.textAnchorUpdate:hover {
+  color: black;
+}
+.deleteBTN {
+  width: 80px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0);
+  border: 2px solid #f54242;
+  border-radius: 7px;
+  transition: 0.3s;
+}
+.textAnchorDelete {
+  color: #f54242;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.deleteBTN:hover {
+  background: #f54242;
+}
+.textAnchorDelete:hover {
+  color: black;
+}
+/* SEARCH */
+.searchBTN {
+  width: 160px;
+  height: 55px;
+  border: 3px solid #f0eeef;
+  border-radius: 30px;
+  transition: all 0.3s;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0);
+  font-size: 0.9em;
+  font-weight: 550;
+  font-family: "Montserrat", sans-serif;
+  color: #f0eeef;
+}
+
+.searchBTN:hover {
+  background: #f0eeef;
+  color: black;
+  font-size: 1em;
+}
