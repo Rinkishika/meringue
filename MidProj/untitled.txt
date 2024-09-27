@@ -1,0 +1,279 @@
+        <?php
+            $sql = "SELECT Fullname, Total_amount FROM customer_view";
+            // Execute the query
+            $result = mysqli_query($conn, $sql);
+            
+            // Check if the query was successful
+            if ($result) {
+                // Check if there are rows returned
+                if (mysqli_num_rows($result) > 0) {
+                    echo '<div class="container">';
+                    echo '<table class="table table-striped">';
+                    echo '<thead>';
+                    echo '<tr>';
+                    echo '<th>Fullname</th>';
+                    echo '<th>Total Amount</th>';
+                    echo '</tr>';
+                    echo '</thead>';
+                    echo '<tbody>';
+            
+                    // Output data of each row
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<tr>';
+                        echo '<td>' . $row["Fullname"] . '</td>';
+                        echo '<td>' . $row["Total_Amount"] . '</td>';
+                        echo '</tr>';
+                    }
+            
+                    echo '</tbody>';
+                    echo '</table>';
+                    echo '</div>';
+                } else {
+                    echo "No records found in the view";
+                }
+            } else {
+                echo "Error executing the query: " . mysqli_error($connection);
+            }
+            
+            mysqli_close($conn);
+            ?>
+            
+            
+            
+            
+            
+            
+<?php
+
+// Query to fetch data from the 'customer' table
+$sql = "SELECT Fname, Lname, Payment, Discount, Total_Amount FROM customer";
+
+// Execute the query
+$result = mysqli_query($conn, $sql);
+
+// Check if there are any results
+if (mysqli_num_rows($result) > 0) {
+    // Output data of each row
+    echo "<table class='table table-striped'>";
+    echo "<thead class='thead-dark'><tr><th>Fname</th><th>Lname</th><th>Payment</th><th>Discount</th><th>Total Amount</th></tr></thead>";
+    echo "<tbody>";
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>" . $row["Fname"] . "</td>";
+        echo "<td>" . $row["Lname"] . "</td>";
+        echo "<td>" . $row["Payment"] . "</td>";
+        echo "<td>" . $row["Discount"] . "</td>";
+        echo "<td>" . $row["Total_Amount"] . "</td>";
+        echo "</tr>";
+    }
+    echo "</tbody></table>";
+} else {
+    echo "0 results";
+}
+
+// Close the connection
+mysqli_close($conn);
+?>
+
+
+<form action="" method="post">
+                    <div class="flm col-12 d-grid align-items-end">
+                        <div class="form-floating mb-3">
+                            <input type="number" name="Payment" required class="form-control" id="floatingInput" autocomplete="off" placeholder="name@example.com">
+                            <label for="floatingInput">Bill</label>  
+                        </div>
+                       
+                       <button class="btn btn-secondary mb-3" name="insert">
+                           Insert
+                       </buttton>
+                    </div>
+                </form>
+                
+                
+                
+                
+                
+                
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Mar 28, 2024 at 03:07 PM
+-- Server version: 5.7.34
+-- PHP Version: 8.2.6
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `Customer`
+--
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddCustomer` (IN `in_Fname` VARCHAR(255), IN `in_Lname` VARCHAR(255), IN `in_Age` INT)   BEGIN
+
+    INSERT INTO customer (Fname, Lname, Age) VALUES (in_Fname, in_Lname, in_Age);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteCustomer` (IN `in_cus_ID` INT)   BEGIN
+
+    DELETE FROM customer WHERE cus_ID = in_cus_ID;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPayment` (IN `in_cus_ID` INT, IN `in_Payment` DECIMAL(10,2))   BEGIN
+    UPDATE customer
+    SET 
+        Payment = in_Payment
+    WHERE 
+        cus_ID = in_cus_ID;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateAge` (IN `in_cus_ID` INT, IN `in_Age` INT)   BEGIN 
+    UPDATE customer
+    SET Age = in_Age
+    WHERE 
+    cus_ID = in_cus_ID;
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `cus_ID` int(11) NOT NULL,
+  `Fname` varchar(255) NOT NULL,
+  `Lname` varchar(255) NOT NULL,
+  `Age` int(25) DEFAULT NULL,
+  `Payment` decimal(10,2) DEFAULT NULL,
+  `Discount` int(11) DEFAULT NULL,
+  `Total_Amount` decimal(10,2) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`cus_ID`, `Fname`, `Lname`, `Age`, `Payment`, `Discount`, `Total_Amount`) VALUES
+(8, 'Dinno', 'Guerba', 20, 500.00, 0, 500.00);
+
+--
+-- Triggers `customer`
+--
+DELIMITER $$
+CREATE TRIGGER `calculate_discount_update` BEFORE UPDATE ON `customer` FOR EACH ROW BEGIN
+    DECLARE age_category VARCHAR(20);
+    -- Determine age category
+    IF NEW.Age >= 60 THEN
+        SET age_category = 'Senior Citizen';
+    ELSEIF NEW.Age < 18 THEN
+        SET age_category = 'Minor';
+    ELSE
+        SET age_category = 'Adult';
+    END IF;
+    -- Set discount based on age category
+    CASE age_category
+        WHEN 'Senior Citizen' THEN
+            SET NEW.Discount = 30;
+        WHEN 'Minor' THEN
+            SET NEW.Discount = 10;
+        ELSE
+            SET NEW.Discount = 0;
+    END CASE;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `calculate_total_amount` BEFORE UPDATE ON `customer` FOR EACH ROW BEGIN
+
+    SET NEW.Total_Amount = NEW.Payment - (NEW.Payment * (NEW.Discount / 100));
+
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `CustomerTotal`
+--
+
+CREATE TABLE `CustomerTotal` (
+  `custotal_ID` int(11) NOT NULL,
+  `custom_Name` varchar(225) DEFAULT NULL,
+  `custom_Total` decimal(10,2) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `CustomerTotal`
+--
+
+INSERT INTO `CustomerTotal` (`custotal_ID`, `custom_Name`, `custom_Total`) VALUES
+(4, 'Total Amount', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `customer_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `customer_view` (
+`Fullname` varchar(511)
+,`Total_Amount` decimal(10,2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `customer_view`
+--
+DROP TABLE IF EXISTS `customer_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customer_view`  AS SELECT concat(`customer`.`Fname`,' ',`customer`.`Lname`) AS `Fullname`, `customer`.`Total_Amount` AS `Total_Amount` FROM `customer` ;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`cus_ID`);
+
+--
+-- Indexes for table `CustomerTotal`
+--
+ALTER TABLE `CustomerTotal`
+  ADD PRIMARY KEY (`custotal_ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `cus_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
